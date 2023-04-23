@@ -61,10 +61,18 @@ Can you get that flag to us please?
 So there were two Sharing is Caring challenges, the first one and then this one, `the sequel`. Well, we got the second one first and never go the first one.
 
 To solve this one, we authenticated with the credentials we pulled from the first challenge, to the API endpoint listed in the code:
+![web1](img/web1.png)
 
-<<SOMETHING ABOUT WEB VULNS IDK>>
+Then, we tried with a number to find that the api is expecting the text "codeFile":
+![web2](img/web2.png)
 
-After we determined we had LFI on this endpoint, we grabbing the `/prof/self/environ` file in order to pull AWS credentials from the host (the sed line is some parsing to make this look nicer):
+Then, we found that it can take a file prefix in the JSON:
+![web3](img/web3.png)
+
+This is local file inclusion!
+![web4](img/web4.png)
+
+After we determined we had LFI on this endpoint, we grabbed the `/prof/self/environ` file in order to pull AWS credentials from the host (the sed line is some parsing to make this look nicer):
 ```
 $ curl -H "authorizationToken:flag-{gtkO4f4NOrJsRRNZWxiTbL6LLUs5Ir8g}" -d "{\"codeFile\": \"file:///proc/self/environ\"}"  https://jg0rh6th8e.execute-api.ap-south-1.amazonaws.com/test/share | sed 's/\\x00/\n/g'
 
